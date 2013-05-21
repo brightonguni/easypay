@@ -114,56 +114,63 @@ class Easypay
 	 */
 	private $entity = '' ;
 	
-        /**
+    /**
 	 * Define Custumer Name
 	 * @access 	private
 	 * @var 	string
 	 */
-        private $name = '';
-        
-        /**
+    private $name = '';
+    
+    /**
 	 * Define Description
 	 * @access 	private
 	 * @var 	string
-	 */
-        private $description = '';
-        
-        /**
+ 	 */
+    private $description = '';
+    
+    /**
 	 * Define Observations
 	 * @access 	private
 	 * @var 	string
 	 */
-        private $observation = '';
-        
-        /**
+    private $observation = '';
+    
+    /**
 	 * Define Custumer Mobile Contact
 	 * @access 	private
 	 * @var 	string
 	 */
-        private $mobile = '';
-        
-        /**
+    private $mobile = '';
+    
+    /**
 	 * Define Custumer Email
 	 * @access 	private
 	 * @var 	string
 	 */
-        private $email = '';
-        
-        /**
+    private $email = '';
+    
+    /**
 	 * Defines the transference Value
 	 * @access 	private
 	 * @var 	string
 	 */
-        private $value = '';
-        
-        /**
+    private $value = '';
+    
+    /**
 	 * Defines the transference Key
 	 * @access 	private
 	 * @var 	string
 	 */
-        private $key = '';
-
-        /**
+    private $key = '';
+	
+	/**
+	 * Keeps the last transaction loggs
+	 * @access	private
+	 * @var		array
+	 */
+	private $_log = array();
+	
+    /**
 	 * Handler for easypay communications
 	 */
 	public function __construct( $params = array() )
@@ -258,7 +265,7 @@ class Easypay
 		$this->_add_uri_param('ep_user', $this->user);
 		$this->_add_uri_param('ep_cin', $this->cin);
 		$this->_add_uri_param('ep_doc', $ep_doc);
-                                
+		
 		return $this->_xmlToArray( $this->_get_contents( $this->_get_uri( $this->request_payment)));
 	}
         
@@ -339,6 +346,7 @@ class Easypay
 		
 		curl_close($curl);
 		
+		$this -> _log['contents'] = $result;
 		return $result;
 	}
 	
@@ -351,7 +359,10 @@ class Easypay
 	{
 		$obj = simplexml_load_string($string);
 		
-		return json_decode( json_encode($obj), true);
+		$data = json_decode( json_encode($obj), true);
+		
+		$this -> _log['contents_array'] = $data;
+		return $data;
 	}
 	
 	/**
@@ -387,9 +398,19 @@ class Easypay
 
 		$tmp = str_replace(' ', '+', http_build_query( $this -> uri ) );
 
-		$this->uri = array();
-
-		return ( $str . '?' . $tmp );
+		$this -> _log['params']	= $this -> uri;
+		$this -> uri = array();
 		
+		$this -> _log['url'] 	= $str . '?' . $tmp;
+		return $str . '?' . $tmp;
+		
+	}
+	
+	/**
+	 * Returns the last operation logs
+	 * @return array
+	 */
+	public function logs(){
+		return $this -> _log;
 	}
 }
