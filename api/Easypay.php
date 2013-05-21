@@ -1,4 +1,6 @@
 <?php
+error_reporting( E_ERROR );
+
 /**
  * Easypay Communication Simple Library
  * @package 	Easypay-PHP
@@ -266,7 +268,7 @@ class Easypay
 		$this->_add_uri_param('ep_cin', $this->cin);
 		$this->_add_uri_param('ep_doc', $ep_doc);
 		
-		return $this->_xmlToArray( $this->_get_contents( $this->_get_uri( $this->request_payment)));
+		return $this->_xmlToArray( $this->_get_contents( $this->_get_uri( $this -> request_payment_data )));
 	}
         
     /**
@@ -326,25 +328,29 @@ class Easypay
 	 * @return string
 	 */
 	private function _get_contents( $url, $type = 'GET' )
-	{            
-		$curl = curl_init();
-		
-                curl_setopt($curl, CURLOPT_URL, $url);
-                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
-                
-		if( strtoupper($type) == 'GET') {
-			//curl_setopt($curl, CURLOPT_HTTPGET, TRUE);
-		} elseif( strtoupper($type) == 'POST' ) {
-			curl_setopt($curl, CURLOPT_POST, TRUE);
-		} else {
-			throw new Exception('Communication Error, standart communication not selected, POST or GET required');
-		}
-		
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-		
-		$result = curl_exec( $curl );
-		
-		curl_close($curl);
+	{
+		try {
+			$curl = curl_init();
+
+			curl_setopt( $curl, CURLOPT_URL, $url );
+			curl_setopt( $curl, CURLOPT_CONNECTTIMEOUT, 5 );
+
+			if ( strtoupper( $type ) == 'GET' ) {
+				//curl_setopt($curl, CURLOPT_HTTPGET, TRUE);
+			} elseif ( strtoupper( $type ) == 'POST' ) {
+				curl_setopt( $curl, CURLOPT_POST, TRUE );
+			} else {
+				throw new Exception('Communication Error, standart communication not selected, POST or GET required');
+			}
+			
+			curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );
+
+			$result = curl_exec( $curl );
+
+			curl_close($curl);
+		} catch( Exception $e ) {
+			$result = false;
+		}            
 		
 		$this -> _log['contents'] = $result;
 		return $result;
@@ -357,9 +363,12 @@ class Easypay
 	 */
 	private function _xmlToArray( $string )
 	{
-		$obj = simplexml_load_string($string);
-		
-		$data = json_decode( json_encode($obj), true);
+		try {
+			$obj 	= simplexml_load_string( $string );
+			$data 	= json_decode( json_encode( $obj ), true );
+		} catch( Exception $e ) {
+			$data = false;
+		}
 		
 		$this -> _log['contents_array'] = $data;
 		return $data;
@@ -372,7 +381,7 @@ class Easypay
 	 */
 	private function _add_uri_param( $key, $value )
 	{
-		$this->uri[$key] = $value;
+		$this -> uri[ $key ] = $value;
 	}
 	
 	/**
