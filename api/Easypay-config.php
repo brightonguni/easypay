@@ -24,7 +24,7 @@ $ep_conf['request_payment'] = 'api_easypay_05AG.php';
 /**
  * Define the Request Payment Data API
  */
-$ep_conf['request_payment_data'] = 'api_easypay_03BG.php';
+$ep_conf['request_payment_data'] = 'api_easypay_03AG.php';
 
 /**
  * Define the Request Payment List Data
