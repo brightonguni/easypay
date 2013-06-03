@@ -27,7 +27,7 @@ $easypay = new Easypay( $easypay_params );
 
 //set mode to either test or production.
 //This can be defined in the config file
-$easypay -> set_live( true );
+$easypay -> set_live( false );
 
 //connecting to database
 /**
