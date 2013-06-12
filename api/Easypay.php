@@ -46,7 +46,14 @@ class Easypay
 	 * @var 	string
 	 */
 	private $request_transaction_key_verification = "";
-        
+	
+	/**
+	 * Modify Payment Holder
+	 * @access 	private
+	 * @var 	string
+	 */
+	private $modify_payment = "";
+	
 	/**
 	 * Test Server
 	 * @access 	private
@@ -284,7 +291,56 @@ class Easypay
                 
         return $this->_xmlToArray( $this->_get_contents( $this->_get_uri( $this->request_transaction_key_verification)));                
     }
-
+	
+	/**
+	 * Updates the payment information. Name, Email, etc...
+	 * @param integer	$reference
+	 * @param double	$value
+	 * @param array		$data Optional Keys -> name, description, obs, email, mobile, t_key
+	 * @return array
+	 */
+	public function updatePayment( $reference, $value, $data )
+	{
+		$this -> _add_uri_param( 'ep_cin', 		$this -> cin );
+		$this -> _add_uri_param( 'ep_user', 	$this -> user );
+		$this -> _add_uri_param( 'ep_entity', 	$this -> entity );
+		$this -> _add_uri_param( 'ep_ref', 		$reference );
+		$this -> _add_uri_param( 't_value', 	$value );
+		//Data handling
+		if ( isset( $data['name'] ) )
+			$this -> _add_uri_param( 'o_value', 		$data['name'] );
+		if ( isset( $data['description'] ) )
+			$this -> _add_uri_param( 'o_description', 	$data['description'] );
+		if ( isset( $data['obs'] ) )
+			$this -> _add_uri_param( 'o_obs', 			$data['obs'] );
+		if ( isset( $data['email'] ) )
+			$this -> _add_uri_param( 'o_email', 		$data['email'] );
+		if ( isset( $data['mobile'] ) )
+			$this -> _add_uri_param( 'o_mobile', 		$data['mobile'] );
+		if ( isset( $data['t_key'] ) )
+			$this -> _add_uri_param( 't_key', 			$data['t_key'] );
+			
+        return $this -> _xmlToArray( $this -> _get_contents( $this -> _get_uri( $this -> modify_payment ) ) );
+	}
+	
+	/**
+	 * Deletes a payment by reference
+	 * @param integer	$reference
+	 * @param double	$value
+	 * @return array
+	 */
+	public function deletePayment( $reference, $value )
+	{
+		$this -> _add_uri_param( 'ep_cin', 		$this -> cin );
+		$this -> _add_uri_param( 'ep_user', 	$this -> user );
+		$this -> _add_uri_param( 'ep_entity', 	$this -> entity );
+		$this -> _add_uri_param( 'ep_ref', 		$reference );
+		$this -> _add_uri_param( 'ep_delete', 	'yes' );
+		$this -> _add_uri_param( 't_value', 	$value );
+                
+        return $this -> _xmlToArray( $this -> _get_contents( $this -> _get_uri( $this -> modify_payment ) ) );
+	}
+	
     /**
 	 * Set current working mode
 	 */
