@@ -42,6 +42,11 @@ $ep_conf['request_payment_list'] = 'api_easypay_07BG.php';
 $ep_conf['request_transaction_key_verification'] = 'api_easypay_23AG.php';
 
 /**
+ * Define the Payment Modifier API
+ */
+$ep_conf['modify_payment'] 			= 'api_easypay_00BG.php';
+
+/**
  * Define Test Environment
  */
 $ep_conf['test_server'] = 'http://test.easypay.pt/_s/';
