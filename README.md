@@ -1,8 +1,3 @@
-PHP-Wrapper
-===========
-
-PHP Wrapper for easier access to easypay API
-
 #ENGLISH VERSION:
 
 Before you start testing the API system, you need to contact Easypay at <tec@easypay.pt>.  
