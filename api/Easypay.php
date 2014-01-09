@@ -244,13 +244,14 @@ class Easypay
 	 * @param string $type ["credit-card", "recurring"]
 	 * @return array
 	 */
-	public function requestPayment( $reference, $key, $type = 'credit-card')
+	public function requestPayment( $reference, $key, $value, $type = 'credit-card')
 	{
 		$this->_add_uri_param('u', $this->user);
 		$this->_add_uri_param('e', $this->entity);
 		$this->_add_uri_param('r', $reference);
 		$this->_add_uri_param('l', $this->language);
 		$this->_add_uri_param('k', $key);
+		$this->_add_uri_param('v', $value);
 		//@todo check this for rec payment types	
 		switch ($type)
 		{
