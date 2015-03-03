@@ -1,0 +1,19 @@
+{
+    "name": "easypay/sdk",
+    "description": "Easypay SDK",
+    "require-dev": {
+        "symfony/var-dumper": "~2.6"
+    },
+    "authors": [
+        {
+            "name": "André Filipe",
+            "email": "andre.r.flip@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Easypay\\SDK\\": "src/"
+        }
+    }
+}

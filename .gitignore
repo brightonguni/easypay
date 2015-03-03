@@ -1,7 +1,2 @@
-*~
-.project
-.settings/*
-.buildpath
-logs/*
-
-index.*
+vendor/
+composer.lock
