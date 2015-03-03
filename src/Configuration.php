@@ -121,11 +121,16 @@ class Configuration
      */
     public function toArray()
     {
-        return array(
+        $data = array(
             'ep_user'   => $this->username,
             'ep_cin'    => $this->cin,
-            'ep_entity' => $this->entity,
-            'ep_code'   => $this->code,
-        );
+            'ep_entity' => $this->entity
+            );
+
+        if ($this->code) {
+            $data['ep_code'] = $this->code;
+        }
+
+        return $data;
     }
 }
