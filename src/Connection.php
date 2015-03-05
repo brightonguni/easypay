@@ -23,7 +23,8 @@ class Connection
      * Requests a specified segment of the API
      * @param  string $segment    Segment
      * @param  array  $parameters Arguments to be sent on the request
-     * @return [type]             [description]
+     * @param  string $dataType   Data type if you want to get the data parsed
+     * @return string|object
      */
     public function call($segment, array $parameters = array(), $dataType = 'raw')
     {
