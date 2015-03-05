@@ -116,6 +116,15 @@ class Configuration
     }
 
     /**
+     * Returns the mode that we are using
+     * @param string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
+
+    /**
      * Returns an array with the options to use on a request
      * @return array
      */
