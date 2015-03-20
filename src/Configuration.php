@@ -107,7 +107,7 @@ class Configuration
      */
     public function setMode($mode)
     {
-        if (!in_array($mode, [self::MODE_LIVE, self::MODE_SANDBOX])) {
+        if (!in_array($mode, array(self::MODE_LIVE, self::MODE_SANDBOX))) {
             throw new Exception("Invalid mode");
         }
 
