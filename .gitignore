@@ -1,2 +1,5 @@
 vendor/
 composer.lock
+
+tests/*.php
+!tests/Test*.php
