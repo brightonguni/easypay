@@ -14,6 +14,12 @@ class Configuration
     protected $username;
     
     /**
+     * Partner Username
+     * @var string
+     */
+    protected $partnerUsername;
+    
+    /**
      * CIN - Client Identification Number
      * @var integer
      */
@@ -36,6 +42,18 @@ class Configuration
      * @var string
      */
     protected $mode;
+
+    /**
+     * Country code
+     * @var string
+     */
+    protected $country;
+
+    /**
+     * Language code
+     * @var string
+     */
+    protected $language;
 
     /**
      * Configuration class constructor
@@ -72,6 +90,16 @@ class Configuration
     }
 
     /**
+     * Sets the Partner Username
+     * @param string $username Username
+     */
+    public function setPartnerUsername($username)
+    {
+        $this->partnerUsername = $username;
+        return $this;
+    }
+
+    /**
      * Sets the Client Identification Number
      * @param integer $cin CIN
      */
@@ -98,6 +126,26 @@ class Configuration
     public function setCode($code)
     {
         $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * Sets the Country code
+     * @param string $countryIsoCode ISO-3301-alpha2 Country Code
+     */
+    public function setCountry($countryIsoCode)
+    {
+        $this->country = $countryIsoCode;
+        return $this;
+    }
+
+    /**
+     * Sets the Language code
+     * @param string $language Language ISO-3301-alpha2 Code
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
         return $this;
     }
 
@@ -136,8 +184,20 @@ class Configuration
             'ep_entity' => $this->entity
             );
 
+        if ($this->partnerUsername) {
+            $data['ep_partner'] = $this->partnerUsername;
+        }
+
         if ($this->code) {
-            $data['ep_code'] = $this->code;
+            $data['s_code'] = $this->code;
+        }
+
+        if ($this->country) {
+            $data['ep_country'] = $this->country;
+        }
+
+        if ($this->language) {
+            $data['ep_language'] = $this->language;
         }
 
         return $data;

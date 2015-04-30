@@ -8,7 +8,13 @@ class Connection
      * Configuration holder
      * @var Configuration
      */
-    protected $config; 
+    protected $config;
+
+    /**
+     * Stores the last url that was called
+     * @var string
+     */
+    protected $lastUrlCalled;
 
     /**
      * Connection class constructor
@@ -28,11 +34,12 @@ class Connection
      */
     public function call($segment, array $parameters = array(), $dataType = 'raw')
     {
-        $url = $this->config->getEndpoint() . '_s/api_easypay_' . $segment . '.php';
+        $url           = $this->config->getEndpoint() . '_s/api_easypay_' . $segment . '.php';
         $urlParameters = array_merge($this->config->toArray(), $parameters);
+        $urlToCall     = $url . '?' . http_build_query($urlParameters);
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url . '?' . http_build_query($urlParameters));
+        curl_setopt($ch, CURLOPT_URL, $urlToCall);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
@@ -40,16 +47,32 @@ class Connection
         $response = trim(curl_exec($ch));
         curl_close($ch);
 
-        switch ($dataType) {
-            case 'xml':
-                return json_decode(json_encode((array) simplexml_load_string($response), true));
+        $this->lastUrlCalled = $urlToCall;
 
-            case 'json':
-                return json_decode($response);
-            
-            case 'raw':
-            default:
-                return $response;
+        try {
+            switch ($dataType) {
+                case 'xml':
+                    // This is used to convert all the children to stdclass, if any
+                    return json_decode(json_encode(simplexml_load_string($response)));
+    
+                case 'json':
+                    return json_decode($response);
+                
+                case 'raw':
+                default:
+                    return $response;
+            }
+        } catch (\Exception $e) {
+            return $response;
         }
+    }
+
+    /**
+     * Return the last Url called
+     * @return string Url called
+     */
+    public function getLastCall()
+    {
+        return $this->lastUrlCalled;
     }
 }
