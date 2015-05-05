@@ -49,22 +49,26 @@ class Connection
 
         $this->lastUrlCalled = $urlToCall;
 
-        try {
-            switch ($dataType) {
-                case 'xml':
-                    // This is used to convert all the children to stdclass, if any
-                    return json_decode(json_encode(simplexml_load_string($response)));
-    
-                case 'json':
-                    return json_decode($response);
-                
-                case 'raw':
-                default:
-                    return $response;
-            }
-        } catch (\Exception $e) {
-            return $response;
+        $result = $response;
+        
+        ob_start();
+        switch ($dataType) {
+            case 'xml':
+                // This is used to convert all the children to stdclass, if any
+                $result = json_decode(json_encode(simplexml_load_string($response)));
+                break;
+
+            case 'json':
+                $result = json_decode($response);
+                break;
         }
+        $messages = ob_get_clean();
+
+        if (empty(trim($messages))) {
+            return $result;
+        }
+
+        return $response;
     }
 
     /**
