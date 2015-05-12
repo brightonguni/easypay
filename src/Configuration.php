@@ -56,6 +56,12 @@ class Configuration
     protected $language;
 
     /**
+     * Custom parameters to be added to the request
+     * @var array
+     */
+    protected $customParameters = array();
+
+    /**
      * Configuration class constructor
      */
     public function __construct()
@@ -82,6 +88,7 @@ class Configuration
     /**
      * Sets the Username
      * @param string $username Username
+     * @return  Configuration
      */
     public function setUsername($username)
     {
@@ -92,6 +99,7 @@ class Configuration
     /**
      * Sets the Partner Username
      * @param string $username Username
+     * @return  Configuration
      */
     public function setPartnerUsername($username)
     {
@@ -102,6 +110,7 @@ class Configuration
     /**
      * Sets the Client Identification Number
      * @param integer $cin CIN
+     * @return  Configuration
      */
     public function setCin($cin)
     {
@@ -112,6 +121,7 @@ class Configuration
     /**
      * Sets the Entity
      * @param integer $entity Entity
+     * @return  Configuration
      */
     public function setEntity($entity)
     {
@@ -122,6 +132,7 @@ class Configuration
     /**
      * Sets the Communication code
      * @param string $code Code
+     * @return  Configuration
      */
     public function setCode($code)
     {
@@ -132,6 +143,7 @@ class Configuration
     /**
      * Sets the Country code
      * @param string $countryIsoCode ISO-3301-alpha2 Country Code
+     * @return  Configuration
      */
     public function setCountry($countryIsoCode)
     {
@@ -142,6 +154,7 @@ class Configuration
     /**
      * Sets the Language code
      * @param string $language Language ISO-3301-alpha2 Code
+     * @return  Configuration
      */
     public function setLanguage($language)
     {
@@ -152,6 +165,7 @@ class Configuration
     /**
      * Sets the Mode
      * @param string $mode Mode
+     * @return  Configuration
      */
     public function setMode($mode)
     {
@@ -165,11 +179,33 @@ class Configuration
 
     /**
      * Returns the mode that we are using
-     * @param string
+     * @return string
      */
     public function getMode()
     {
         return $this->mode;
+    }
+
+    /**
+     * Sets a custom parameter to be added to the request
+     * @param string $key   Key
+     * @param string $value Value
+     * @return Configuration
+     */
+    public function setCustomParameter($key, $value)
+    {
+        $this->customParameters[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * Returns the value of a custom parameter if it's setted
+     * @param  string $key Key
+     * @return string      Value
+     */
+    public function getCustomParameter($key)
+    {
+        return isset($this->customParameters[$key]) ? $this->customParameters[$key] : null;
     }
 
     /**
@@ -200,6 +236,6 @@ class Configuration
             $data['ep_language'] = $this->language;
         }
 
-        return $data;
+        return array_merge($data, $this->customParameters);
     }
 }
