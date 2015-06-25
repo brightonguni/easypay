@@ -64,7 +64,8 @@ class Connection
         }
         $messages = ob_get_clean();
 
-        if (empty(trim($messages))) {
+        $messages = trim($messages);
+        if (empty($messages)) {
             return $result;
         }
 
