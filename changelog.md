@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 
-## 1.0.0 - 29-10-2017
+## 1.0.0 - 01-11-2017
 ### Added
 - Added composer.json
 - Refactored class to add PSR-2 support
 - Removed Easypay-config.php file
+- Added examples
 
