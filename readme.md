@@ -54,7 +54,7 @@ uses this package.
 
 For further details and documentation, you can read the following articles:
 
-[Introduction to Easypay API integration - soon](https://geekalicious.pt/)
+[Introduction to Easypay API integration (portuguese)](https://geekalicious.pt/blog/pt/php/introducao-integracao-servico-pagamentos-easypay-multibanco-mb-debito-direto-dd-setup)
 
 [Multibanco integration - soon](https://geekalicious.pt/)
 
