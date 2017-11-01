@@ -49,7 +49,7 @@ Require the package in your `composer.json` file and update composer:
 
 # Documentation & examples
 
-In /examples you can find a sample database schema and fully functional code that integrates with Easypay and
+In [examples/](examples/) you can find a sample database schema and fully functional code that integrates with Easypay and
 uses this package.
 
 For further details and documentation, you can read the following articles:
