@@ -1,7 +1,2 @@
-*~
-.project
-.settings/*
-.buildpath
-logs/*
-
-index.*
+/.idea
+composer.lock

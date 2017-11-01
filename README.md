@@ -1,54 +1,65 @@
-#ENGLISH VERSION:
+## PHP wrapper for Easypay API integration
 
-Before you start testing the API system, you need to contact Easypay at <tec@easypay.pt>.  
-We need to change the configuration of your account to be ready to receive notifications via API.  
-If you don't have a Free Plan, you may request the "Test" environment as well.  
-In all communications with Easypay, please send us your CIN (0000) and your USER ID (XXXX000000).
+This package provides wrapper methods to call Easypay payment system API.
 
-Now that you have your account configured, you may proceed to the installation process.
+This package was forked from [Easypay PHP-Wrapper](https://github.com/Easypay/PHP-Wrapper)
+and allows you to integrate the wrapper with any PHP framework or project that uses Composer.
 
-You can check the examples here, step by step:
+# Installation
 
-* `EasypayCreatePaymentReferenceExample.php`  
-   Shows you how to create a reference and use it to start the payment process.
-   
-* `EasypayPaymentNotificationExample.php`  
-   After filling the client information, it will be redirected to this file.  
-   That information will be saved on your database.
-   
-* `EasypayRequestPaymentExample.php`  
-   Once the payment is realized, EasyPay will call this file, so you can store necessary info.
-   
-* `EasypayTransactionVerificationExample.php`  
-   When a client authorizes a payment trough our credit card gateway our systems send you back a transaction key in the "visa-fwd" URL.
+Require the package in your `composer.json` file and update composer:
 
+```php
+"luismarto/easypay": "1.*"
+```
 
-#PORTUGUESE VERSION:
+# Basic usage
 
-Antes de começar a testar o Sistema de APIs, será necessário contactar a EasyPay através do seguinte endereço <tec@easypay.pt>.  
-Necessitamos de alterar a configuração da sua conta, para que esta esteja apta a receber notificações via API.  
-Se não tiver um Plano Gratuito, deverá pedir o plano de testes.  
-Será necessário enviar o seu CIN (0000) e User ID (XXXX000000) em todas as comunicações que efectue com a EasyPay.
+Require the package in your `composer.json` file and update composer:
 
-Agora que tem a sua conta configurada, deverá proceder ao processo de instalação.
+```php
 
-Poderá ter em conta os exemplos aqui mencionados, passo-a-passo:
+    <?php
+    
+    use Easypay\Easypay;
+    
+    /**
+     * @var Easypay $easypay
+     */
+    protected $easypay;
+    
+    public function __construct() {
+        $this->easypay = new Easypay([
+            'user'   => 'ABCDEF',
+            'entity' => '12345',
+            'cin'    => '123456',
+            'code'   => 'ABCDEFGJI',
+        ]);
+    }
+    
+    public function createReference() {
+        $this->easypay->setValue('value', '43.18');
+        $this->easypay->setValue('key', 1);
+        
+        $result = $this->client->createReference('normal');
+        
+    }
 
-* `EasypayCreatePaymentReferenceExample.php`  
-   Aqui poderá ver como criar uma referência e usá-la para o inicio do processo de pagamento.
- 
-* `EasypayPaymentNotificationExample.php`  
-   Assim que o cliente tenha preenchido a informação necessária. poderá ser redireccionado para este mesmo ficheiro onde será armazenada na sua base de dados a informação referente a esta mesma transacção.
+```
 
-* `EasypayRequestPaymentExample.php`  
-   Assim que o pagamento for realizado, a EasyPay chamará este ficheiro. assim conseguirá aceder á informação necessária.
+# Documentation & examples
 
-* `EasypayTransactionVerificationExample.php`  
-   Quando um cliente autoriza um pagamento através do nosso gateway de pagamento ser-lhe-á enviada a chave de transacção via "visa-fwd" URL.
+In /examples you can find a sample database schema and fully functional code that integrates with Easypay and
+uses this package.
 
+For further details and documentation, you can read the following articles:
 
-                              
+[Introduction to Easypay API integration - soon](https://geekalicious.pt/)
 
+[Multibanco integration - soon](https://geekalicious.pt/)
 
+[Débito Direto integration - soon](https://geekalicious.pt/) 
 
+## License
 
+This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
