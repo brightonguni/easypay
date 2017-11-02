@@ -17,35 +17,32 @@ Require the package in your `composer.json` file and update composer:
 
 Require the package in your `composer.json` file and update composer:
 
-```php
+````php
+use Easypay\Easypay;
 
-    <?php
-    
-    use Easypay\Easypay;
-    
-    /**
-     * @var Easypay $easypay
-     */
-    protected $easypay;
-    
-    public function __construct() {
-        $this->easypay = new Easypay([
-            'user'   => 'ABCDEF',
-            'entity' => '12345',
-            'cin'    => '123456',
-            'code'   => 'ABCDEFGJI',
-        ]);
-    }
-    
-    public function createReference() {
-        $this->easypay->setValue('value', '43.18');
-        $this->easypay->setValue('key', 1);
-        
-        $result = $this->client->createReference('normal');
-        
-    }
+/**
+ * @var Easypay $easypay
+ */
+protected $easypay;
 
-```
+public function __construct() {
+    $this->easypay = new Easypay([
+        'ep_user'   => 'ABCDEF',
+        'ep_entity' => '12345',
+        'ep_cin'    => '123456',
+        's_code'    => 'ABCDEFGJI',
+    ]);
+}
+
+public function createReference() {
+    $this->easypay->setValue('t_value', '43.18');
+    $this->easypay->setValue('t_key', 1);
+    
+    $result = $this->client->createReference('normal');
+    
+}
+
+````
 
 # Documentation & examples
 

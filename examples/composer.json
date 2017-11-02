@@ -11,7 +11,7 @@
   ],
   "version": "1.0.0",
   "require": {
-    "luismarto/easypay": "1.0.0"
+    "luismarto/easypay": "develop"
   },
   "autoload": {
     "psr-0": {

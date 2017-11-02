@@ -46,7 +46,7 @@ class EasyPay
      *
      * @var string
      */
-    private $country = 'PT';
+    private $ep_country = 'PT';
 
     /**
      * Required parameter that is used when you're requesting a ADC (Autorização débito em conta)
@@ -55,21 +55,21 @@ class EasyPay
      *
      * @var string
      */
-    private $language = 'PT';
+    private $ep_language = 'PT';
 
     /**
      * Not really sure what this does, since the unique allowed value is 'auto'
      *
      * @var string
      */
-    private $refType = 'auto';
+    private $ep_ref_type = 'auto';
 
     /**
      * The Easypay user account (the one you use when you login to their backoffice)
      *
      * @var string
      */
-    private $user = '';
+    private $ep_user = '';
 
     /**
      * The CIN (Client Identification Number) you want to use for the requests
@@ -77,7 +77,7 @@ class EasyPay
      *
      * @var string
      */
-    private $cin = '123456';
+    private $ep_cin = '123456';
 
     /**
      * The entity associated to your Easypay account
@@ -85,7 +85,7 @@ class EasyPay
      *
      * @var string
      */
-    private $entity = '12345';
+    private $ep_entity = '12345';
 
     /**
      * Optional for "Multibanco" requests, but required for all other methods.
@@ -93,35 +93,35 @@ class EasyPay
      *
      * @var string
      */
-    private $name = '';
+    private $o_name = '';
 
     /**
      * Optional description for the payment
      *
      * @var string
      */
-    private $description = '';
+    private $o_description = '';
 
     /**
      * Optional (?) value to add the observations you want on the request
      *
      * @var string
      */
-    private $observation = '';
+    private $o_obs = '';
 
     /**
      * The end client's phone number, that will be filled automatically on Easypay's gateway
      *
      * @var string
      */
-    private $mobile = '';
+    private $o_mobile = '';
 
     /**
      * The end client's email address, that will be filled automatically on Easypay's gateway
      *
      * @var string
      */
-    private $email = '';
+    private $o_email = '';
 
     /**
      * The amount the user should be charged.
@@ -129,7 +129,7 @@ class EasyPay
      *
      * @var string
      */
-    private $value = '0.0';
+    private $t_value = '0.0';
 
     /**
      * The identifier of the payment. This will serve to cross-reference the order in
@@ -137,7 +137,7 @@ class EasyPay
      *
      * @var string
      */
-    private $key = '';
+    private $t_key = '';
 
     /**
      * Stores the request logs
@@ -152,14 +152,14 @@ class EasyPay
      *
      * @var string
      */
-    private $epRecFreq = "2W";
+    private $ep_rec_freq = "2W";
 
     /**
      * URL when Easypay gateway should redirect the user when you're using their
      * gateway AND the payment method is Direct Debit
      * @var string
      */
-    private $redirectUrl;
+    private $ep_rec_url;
 
     /**
      * Indicates if you are using the code authentication or not.
@@ -167,7 +167,7 @@ class EasyPay
      * should be a string with the authentication code
      * @var bool|string
      */
-    private $code = false;
+    private $s_code = false;
 
     /**
      * Handler for easypay communications
@@ -199,19 +199,19 @@ class EasyPay
      */
     public function createReference($type = 'normal')
     {
-        $this->addUriParam('ep_user', $this->user);
-        $this->addUriParam('ep_entity', $this->entity);
-        $this->addUriParam('ep_cin', $this->cin);
-        $this->addUriParam('t_value', $this->value);
-        $this->addUriParam('t_key', $this->key);
-        $this->addUriParam('ep_language', $this->language);
-        $this->addUriParam('ep_country', $this->country);
-        $this->addUriParam('ep_ref_type', $this->refType);
-        $this->addUriParam('o_name', $this->name);
-        $this->addUriParam('o_description', $this->description);
-        $this->addUriParam('o_obs', $this->observation);
-        $this->addUriParam('o_mobile', $this->mobile);
-        $this->addUriParam('o_email', $this->email);
+        $this->addUriParam('ep_user', $this->ep_user);
+        $this->addUriParam('ep_entity', $this->ep_entity);
+        $this->addUriParam('ep_cin', $this->ep_cin);
+        $this->addUriParam('t_value', $this->t_value);
+        $this->addUriParam('t_key', $this->t_key);
+        $this->addUriParam('ep_language', $this->ep_language);
+        $this->addUriParam('ep_country', $this->ep_country);
+        $this->addUriParam('ep_ref_type', $this->ep_ref_type);
+        $this->addUriParam('o_name', $this->o_name);
+        $this->addUriParam('o_description', $this->o_description);
+        $this->addUriParam('o_obs', $this->o_obs);
+        $this->addUriParam('o_mobile', $this->o_mobile);
+        $this->addUriParam('o_email', $this->o_email);
 
         switch ($type) {
             case 'boleto':
@@ -220,8 +220,8 @@ class EasyPay
 
             case 'recurring':
                 $this->addUriParam('ep_rec', 'yes');
-                $this->addUriParam('ep_rec_freq', $this->epRecFreq);
-                $this->addUriParam('ep_rec_url', $this->redirectUrl);
+                $this->addUriParam('ep_rec_freq', $this->ep_rec_freq);
+                $this->addUriParam('ep_rec_url', $this->ep_rec_url);
                 break;
 
             case 'moto':
@@ -245,7 +245,7 @@ class EasyPay
      */
     public function requestPayment($params)
     {
-        $this->addUriParam('e', $this->entity);
+        $this->addUriParam('e', $this->ep_entity);
         $this->addUriParam('r', $params['r']);
         $this->addUriParam('v', $params['v']);
         $this->addUriParam('ep_k1', $params['ep_k1']);
@@ -297,9 +297,9 @@ class EasyPay
      */
     public function fetchAllPayments($params, $onlyPayedStatus = false)
     {
-        $this->addUriParam('ep_cin', $this->cin);
-        $this->addUriParam('ep_user', $this->user);
-        $this->addUriParam('ep_entity', $this->entity);
+        $this->addUriParam('ep_cin', $this->ep_cin);
+        $this->addUriParam('ep_user', $this->ep_user);
+        $this->addUriParam('ep_entity', $this->ep_entity);
 
         if (array_key_exists('o_list_type', $params)) {
             $this->addUriParam('o_list_type', $params['o_list_type']);
@@ -414,8 +414,8 @@ class EasyPay
         $str .= $apiEndpoint;
 
         // Append the code to the request, if the authentication is performed via code
-        if ($this->code) {
-            $this->uri['s_code'] = $this->code;
+        if ($this->s_code) {
+            $this->uri['s_code'] = $this->s_code;
         }
 
         // Prepare the URL properly
@@ -477,11 +477,11 @@ class EasyPay
      */
     public function getTransactionVerification($reference)
     {
-        $this->addUriParam('ep_cin', $this->cin);
-        $this->addUriParam('ep_user', $this->user);
-        $this->addUriParam('e', $this->entity);
+        $this->addUriParam('ep_cin', $this->ep_cin);
+        $this->addUriParam('ep_user', $this->ep_user);
+        $this->addUriParam('e', $this->ep_entity);
         $this->addUriParam('r', $reference);
-        $this->addUriParam('c', $this->country);
+        $this->addUriParam('c', $this->ep_country);
 
         return $this->xmlToArray(
             $this->getContents(
@@ -501,9 +501,9 @@ class EasyPay
      */
     public function updatePayment($reference, $value, $data)
     {
-        $this->addUriParam('ep_cin', $this->cin);
-        $this->addUriParam('ep_user', $this->user);
-        $this->addUriParam('ep_entity', $this->entity);
+        $this->addUriParam('ep_cin', $this->ep_cin);
+        $this->addUriParam('ep_user', $this->ep_user);
+        $this->addUriParam('ep_entity', $this->ep_entity);
         $this->addUriParam('ep_ref', $reference);
         $this->addUriParam('t_value', $value);
 
@@ -511,17 +511,17 @@ class EasyPay
         if (isset($data['name'])) {
             $this->addUriParam('o_value', $data['name']);
         }
-        if (isset($data['description'])) {
-            $this->addUriParam('o_description', $data['description']);
+        if (isset($data['o_description'])) {
+            $this->addUriParam('o_description', $data['o_description']);
         }
-        if (isset($data['obs'])) {
-            $this->addUriParam('o_obs', $data['obs']);
+        if (isset($data['o_obs'])) {
+            $this->addUriParam('o_obs', $data['o_obs']);
         }
-        if (isset($data['email'])) {
-            $this->addUriParam('o_email', $data['email']);
+        if (isset($data['o_email'])) {
+            $this->addUriParam('o_email', $data['o_email']);
         }
-        if (isset($data['mobile'])) {
-            $this->addUriParam('o_mobile', $data['mobile']);
+        if (isset($data['o_mobile'])) {
+            $this->addUriParam('o_mobile', $data['o_mobile']);
         }
         if (isset($data['t_key'])) {
             $this->addUriParam('t_key', $data['t_key']);
@@ -544,9 +544,9 @@ class EasyPay
      */
     public function deletePayment($reference, $value)
     {
-        $this->addUriParam('ep_cin', $this->cin);
-        $this->addUriParam('ep_user', $this->user);
-        $this->addUriParam('ep_entity', $this->entity);
+        $this->addUriParam('ep_cin', $this->ep_cin);
+        $this->addUriParam('ep_user', $this->ep_user);
+        $this->addUriParam('ep_entity', $this->ep_entity);
         $this->addUriParam('ep_ref', $reference);
         $this->addUriParam('ep_delete', 'yes');
         $this->addUriParam('t_value', $value);

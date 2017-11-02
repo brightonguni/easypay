@@ -6,10 +6,10 @@
  * Rename this file to config.php
  */
 $easypayConfig = [
-    'user'   => 'YOUR_USER',
-    'code'   => 'EASYPAY_VALIDATION_CODE_HERE',
-    'entity' => '12345',
-    'cin'    => '123456',
+    'ep_user'   => 'YOUR_USER',
+    'ep_entity' => '12345',
+    'ep_cin'    => '123456',
+    's_code'    => 'EASYPAY_VALIDATION_CODE_HERE',
 ];
 
 $dbConfig = [

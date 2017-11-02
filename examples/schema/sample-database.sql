@@ -1,6 +1,42 @@
 CREATE DATABASE IF NOT EXISTS `easypay_examples`;
 USE `easypay_examples`;
 
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `some_field` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Here is where you store your orders';
+
+CREATE TABLE `easypay_references` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `ep_cin` INT(20) NOT NULL,
+  `ep_status` VARCHAR(50) NULL DEFAULT NULL,
+  `ep_message` TEXT NULL,
+  `ep_entity` INT(10) NOT NULL,
+  `ep_reference` VARCHAR(50) NOT NULL,
+  `ep_k1` VARCHAR(255) NULL DEFAULT NULL,
+  `t_key` INT(11) NOT NULL,
+  `o_obs` TEXT NULL,
+  `o_mobile` VARCHAR(255) NULL DEFAULT NULL,
+  `o_email` VARCHAR(255) NULL DEFAULT NULL,
+  `ep_value` FLOAT NOT NULL,
+  `ep_link` TEXT NULL,
+  `ep_link_rp_dd` TEXT NULL,
+  `ep_link_rp_cc` TEXT NULL,
+  `ep_currency` VARCHAR(255) NULL DEFAULT NULL,
+  `ep_periodicity` VARCHAR(255) NULL DEFAULT NULL,
+  `ep_max_debit` INT(11) NULL DEFAULT NULL,
+  `ep_max_auth` FLOAT NULL DEFAULT NULL,
+  `ep_expiry_date` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `id` (`id`),
+  INDEX `fk_t_key` (`t_key`),
+  CONSTRAINT `fk_t_key` FOREIGN KEY (`t_key`) REFERENCES `orders` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+)
+  COLLATE='utf8_general_ci'
+  ENGINE=InnoDB
+;
+
 CREATE TABLE `easypay_payments` (
   `ep_key` INT(11) NOT NULL AUTO_INCREMENT,
   `easypay_reference_id` INT(11) NULL DEFAULT NULL,
@@ -32,40 +68,3 @@ CREATE TABLE `easypay_payments` (
   COLLATE='utf8_general_ci'
   ENGINE=InnoDB
 ;
-
-CREATE TABLE `easypay_references` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `ep_cin` INT(20) NOT NULL,
-  `ep_status` VARCHAR(50) NULL DEFAULT NULL,
-  `ep_message` TEXT NULL,
-  `ep_entity` INT(10) NOT NULL,
-  `ep_reference` VARCHAR(50) NOT NULL,
-  `ep_k1` VARCHAR(255) NULL DEFAULT NULL,
-  `t_key` INT(11) NOT NULL,
-  `o_obs` TEXT NULL,
-  `o_mobile` VARCHAR(255) NULL DEFAULT NULL,
-  `o_email` VARCHAR(255) NULL DEFAULT NULL,
-  `ep_value` FLOAT NOT NULL,
-  `link` TEXT NULL,
-  `ep_link_rp_dd` TEXT NULL,
-  `ep_link_rp_cc` TEXT NULL,
-  `ep_currency` VARCHAR(255) NULL DEFAULT NULL,
-  `ep_periodicity` VARCHAR(255) NULL DEFAULT NULL,
-  `ep_max_debit` INT(11) NULL DEFAULT NULL,
-  `ep_max_auth` FLOAT NULL DEFAULT NULL,
-  `ep_expiry_date` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `id` (`id`),
-  INDEX `fk_t_key` (`t_key`),
-  CONSTRAINT `fk_t_key` FOREIGN KEY (`t_key`) REFERENCES `orders` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
-)
-  COLLATE='utf8_general_ci'
-  ENGINE=InnoDB
-;
-
-CREATE TABLE IF NOT EXISTS `orders` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `some_field` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Here is where you store your orders';
-
