@@ -69,10 +69,10 @@ $stmt = $conn->prepare('
     VALUES (:ep_cin, :ep_status, :ep_message, :ep_entity, :ep_reference, :t_key, :o_obs, :o_mobile, :o_email, :ep_value)
 ');
 $stmt->execute([
-    ':ep_cin' => $easypayConfig['cin'],
+    ':ep_cin' => $easypayConfig['ep_cin'],
     ':ep_status' => $result['ep_status'],
     ':ep_message' => $result['ep_message'],
-    ':ep_entity' => $easypayConfig['entity'],
+    ':ep_entity' => $easypayConfig['ep_entity'],
     ':ep_reference' => $result['ep_reference'],
     ':t_key' => $tKey,
     ':o_obs' => $obs,

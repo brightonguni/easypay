@@ -3,7 +3,7 @@
 /**
  * The following code demonstrates how to create a Direct debit reference with 01BG API
  * Once the reference is created, the user will be redirected to Easypay's payment gateway
- * to insert the SWIFT and IBAN info.
+ * to insert the IBAN
  */
 
 // Set error reporting for demo purposes
@@ -34,7 +34,7 @@ $tKey = $conn->lastInsertId();
 $easypay->setValue('t_key', $tKey);
 
 // Set the value to be payed
-$value = '50.00';
+$value = '26.41';
 $easypay->setValue('t_value', $value);
 
 // Fill in optional values
@@ -54,9 +54,10 @@ $easypay->setValue('o_email', $email);
 // You can't however, set this to 1M (1 month) and request payments every 2 weeks
 $easypay->setValue('ep_rec_freq', '2W');
 
-// This parameter is used once the user submits the IBAN and SWIFT on Easypay's Gateway
+// This parameter is used once the user submits the IBAN on Easypay's Gateway
 // On submit, Easypay will send the client back to this URL
-$easypay->setValue('ep_rec_url', '//your-website-url.com/easypay-gateway-redirect.php');
+// @see dd-gateway-callback.php for the final process
+$easypay->setValue('ep_rec_url', 'http://dev.easypay-examples.pt/dd-gateway-callback.php');
 
 // Notice the 'recurring' value
 $result = $easypay->createReference('recurring');
@@ -83,10 +84,10 @@ $stmt = $conn->prepare('
     VALUES (:ep_cin, :ep_status, :ep_message, :ep_entity, :ep_reference, :ep_k1, :t_key, :o_obs, :o_mobile, :o_email, :ep_value, :ep_link, :ep_link_rp_dd, :ep_link_rp_cc, :ep_periodicity)
 ');
 $stmt->execute([
-    ':ep_cin' => $easypayConfig['cin'],
+    ':ep_cin' => $easypayConfig['ep_cin'],
     ':ep_status' => $result['ep_status'],
     ':ep_message' => $result['ep_message'],
-    ':ep_entity' => $easypayConfig['entity'],
+    ':ep_entity' => $easypayConfig['ep_entity'],
     ':ep_reference' => $result['ep_reference'],
     ':ep_k1' => $result['ep_k1'],
     ':t_key' => $tKey,
@@ -101,4 +102,8 @@ $stmt->execute([
 ]);
 
 // Now redirect the user to Easypay's gateway
+// Once you're on Easypay's gateway, you can use the following IBAN for testing purposes only:
+// PT50000201231234567890154
+// Note: This will only create a Autorização de Débito Direto (AdC). It wont request any payment.
+// That will be done on dd-gateway-callback.php
 header('Location: ' . $result['ep_link_rp_dd']);
