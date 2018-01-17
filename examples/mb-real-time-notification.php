@@ -7,7 +7,8 @@
  * The url is something like: http://easypay-examples.com/mb-real-time-notification.php?ep_cin=12345&ep_user=YOUR_USER&ep_doc=MBTEST0001234567890123456789
  *
  * BEWARE: this code should be executed on an endpoint that you need to ser on Easypay's backoffice.
- * For further details check this post: @todo LINKLINKLINKLINKLINKLINKLINKLINKLINKLINKLINKLINK
+ * For further details check this post (Portuguese):
+ * https://geekalicious.pt/blog/pt/php/integracao-servico-pagamentos-easypay-multibanco-mb-atm#easypay-async-payment-notification
  */
 
 // Set error reporting for demo purposes

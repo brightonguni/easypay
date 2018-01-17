@@ -17,3 +17,8 @@ Here you can access fully functional code on how to integrate with Easypay using
 link). This file replicates the request Easypay performs for real time notifications.
         
     The point is to retrieve the full details of the payment and update `easypay_references` and create a new row on `easypay_payments`
+3. `mb-async-notification.php` allows you to fetch payments details and mark the payments as completed.
+4. `dd-create-reference.php` calls 01BG API to create a refence / Direct debit authorization code and then redirects the user
+to Easypay's gateway, where the user needs to fill the bank account IBAN
+5. `dd-gateway-callback.php` is called by Easypay when the user submits the information on their gateway. At this point
+you can request a payment.
