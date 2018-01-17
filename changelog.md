@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- Updated `fetchAllPayments()` signature - BC
 ### Added
 
 ## 1.0.0 - 01-11-2017

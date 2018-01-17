@@ -290,12 +290,12 @@ class EasyPay
      * @see https://docs.easypay.pt/api/040BG1
      *
      * @param array $params Array that can either be empty or have specific values
-     *  if you want to use, for eg, the `o_list_type`
-     * @param bool $onlyPayedStatus True if only payment indications (success) false for pending and errors.
-     *  This is only needed when you're trying to fetch Direct Debit payment "notifications"
+     *      if you want to use, for eg, the `o_list_type`
+     * @param bool $requestedPayments if true, returns the list of requested payments (pedidos de cobrança). Set false
+     *      to retrieve the list of effective payments (pagamentos efetuados)
      * @return array
      */
-    public function fetchAllPayments($params, $onlyPayedStatus = false)
+    public function fetchAllPayments($params, $requestedPayments = true)
     {
         $this->addUriParam('ep_cin', $this->ep_cin);
         $this->addUriParam('ep_user', $this->ep_user);
@@ -313,7 +313,7 @@ class EasyPay
 
         // If we want the request payment status, we send ep_rec=yes.
         // If we want the effective payment status, we won't send the ep_rec
-        if (!$onlyPayedStatus) {
+        if ($requestedPayments) {
             $this->addUriParam('ep_rec', 'yes');
         }
 
